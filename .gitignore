@@ -30,4 +30,9 @@
 *.exe
 *.out
 *.app
-build/
+
+# build dir
+build*/
+
+# vscode
+.vscode

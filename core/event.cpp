@@ -13,6 +13,7 @@
 #if defined(CORE_WIN)
 #include <windows.h>
 #elif defined(CORE_POSIX)
+#include <optional>
 #include <errno.h>
 #include <pthread.h>
 #include <sys/time.h>

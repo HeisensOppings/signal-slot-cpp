@@ -1,9 +1,50 @@
 #include <iostream>
 #include <list>
 #include <memory>
-#include "signal.hpp"
-#include "core/task_queue.h"
-#include "core/task_queue_manager.h"
+#include "sigslot.h"
+
+class Test
+{
+private:
+    std::thread th;
+    std::mutex mtx;
+    sigslot::signal<> sig;
+    std::atomic<bool> running;
+
+public:
+    Test()
+    {
+        running = true;
+        th = std::thread(&Test::run, this);
+        sig.connect(this, &Test::fun, sigslot::connection_type::queued_connection, TQ("sigslot_thread"));
+    }
+
+    ~Test()
+    {
+        running = false;
+        th.join();
+    }
+
+    void run()
+    {
+        while (running)
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            std::clog << "sig emit ThreadID: " << std::this_thread::get_id() << std::endl;
+            std::clog.flush();
+            sig();
+            lock.unlock();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+    }
+
+    void fun()
+    {
+        std::unique_lock<std::mutex> lock(mtx);
+        std::clog << "slot handle ThreadID: " << std::this_thread::get_id() << std::endl;
+        std::clog.flush();
+    }
+};
 
 struct DeviceInfo {
     std::string deviceId;
@@ -54,6 +95,12 @@ public:
 
 int main()
 {
+    // example
+    // TQMgr->create({"sigslot_thread"});
+    // Test ts;
+    // while(1);
+    // return 0;
+
     // create a task queue
     TQMgr->create({"worker"});
 

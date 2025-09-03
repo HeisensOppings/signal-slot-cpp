@@ -64,12 +64,14 @@ namespace core {
         CORE_CONST_INIT pthread_key_t g_current_yield_policy_tls = 0;
 
         void InitializeTls() {
-            assert(pthread_key_create(&g_current_yield_policy_tls, nullptr) == 0);
+            int iRet_g_current_yield_policy_tls = pthread_key_create(&g_current_yield_policy_tls, nullptr);
+            assert(iRet_g_current_yield_policy_tls == 0);
         }
 
         pthread_key_t GetCurrentYieldPolicyTls() {
             static pthread_once_t init_once = PTHREAD_ONCE_INIT;
-            assert(pthread_once(&init_once, &InitializeTls) == 0);
+            int iRet_init_once = pthread_once(&init_once, &InitializeTls);
+            assert(iRet_init_once == 0);
             return g_current_yield_policy_tls;
         }
 

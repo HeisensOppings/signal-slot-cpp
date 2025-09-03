@@ -1,0 +1,49 @@
+{
+    "version": 2,
+    "configurePresets": [
+        {
+            "name": "mingw_debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build_mingw_debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "mingw_release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build_mingw_release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "msvc_release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build_msvc_release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_C_FLAGS_INIT": "/MP /D_CRT_SECURE_NO_WARNINGS",
+                "CMAKE_CXX_FLAGS_INIT": "/MP /D_CRT_SECURE_NO_WARNINGS"
+            }
+        },
+        {
+            "name": "msvc_debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build_msvc_debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_C_FLAGS_INIT": "/MP /D_CRT_SECURE_NO_WARNINGS",
+                "CMAKE_CXX_FLAGS_INIT": "/MP /D_CRT_SECURE_NO_WARNINGS"
+            }
+        }
+    ]
+}
