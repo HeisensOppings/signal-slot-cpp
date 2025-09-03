@@ -86,13 +86,16 @@ namespace core {
 
     Event::Event(bool manual_reset, bool initially_signaled)
     : is_manual_reset_(manual_reset), event_status_(initially_signaled) {
-        assert(pthread_mutex_init(&event_mutex_, nullptr) == 0);
+        auto iRet_event_mutex_ = pthread_mutex_init(&event_mutex_, NULL);
+        assert( iRet_event_mutex_ == 0 );
         pthread_condattr_t cond_attr;
-        assert(pthread_condattr_init(&cond_attr) == 0);
+        auto iRet_cond_attr = pthread_condattr_init(&cond_attr);
+        assert( iRet_cond_attr == 0 );
 #if USE_CLOCK_GETTIME && !USE_PTHREAD_COND_TIMEDWAIT_MONOTONIC_NP
         //assert(pthread_condattr_setclock(&cond_attr, CLOCK_MONOTONIC) == 0);
 #endif
-        assert(pthread_cond_init(&event_cond_, &cond_attr) == 0);
+        auto iRet_event_cond_cond_attr = pthread_cond_init(&event_cond_, &cond_attr);
+        assert( iRet_event_cond_cond_attr == 0 );
         pthread_condattr_destroy(&cond_attr);
     }
 

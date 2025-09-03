@@ -9,6 +9,9 @@ namespace core {
     : flag_notify_(/*manual_reset=*/false, /*initially_signaled=*/false)
     , name_(queue_name) {
         thread_ = std::thread([this]{
+#if defined(__linux__)
+    pthread_setname_np(pthread_self(), "SigSlot");
+#endif
             CurrentTaskQueueSetter setCurrent(this);
             this->started_.Set();
             this->ProcessTasks();
