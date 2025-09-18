@@ -208,10 +208,10 @@ namespace core {
             friend class RelativeUnit;
 
             static inline constexpr int64_t PlusInfinityVal() {
-                return std::numeric_limits<int64_t>::max();
+                return (std::numeric_limits<int64_t>::max)();
             }
             static inline constexpr int64_t MinusInfinityVal() {
-                return std::numeric_limits<int64_t>::min();
+                return (std::numeric_limits<int64_t>::min)();
             }
 
             constexpr Unit_T& AsSubClassRef() { return static_cast<Unit_T&>(*this); }
