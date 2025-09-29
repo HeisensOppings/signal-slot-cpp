@@ -14,6 +14,7 @@
 #define RTC_BASE_NUMERICS_SAFE_CONVERSIONS_IMPL_H_
 
 #include <limits>
+#include <stdlib.h>
 
 namespace core {
     namespace internal {
