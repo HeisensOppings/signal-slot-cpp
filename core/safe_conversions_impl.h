@@ -112,11 +112,11 @@ namespace core {
                 typedef std::numeric_limits<Dst> DstLimits;
                 return DstLimits::is_iec559
                            ? BASE_NUMERIC_RANGE_CHECK_RESULT(
-                                 value <= static_cast<Src>(DstLimits::max()),
-                                 value >= static_cast<Src>(DstLimits::max() * -1))
+                                 value <= static_cast<Src>((DstLimits::max)()),
+                                 value >= static_cast<Src>((DstLimits::max)() * -1))
                            : BASE_NUMERIC_RANGE_CHECK_RESULT(
-                                 value <= static_cast<Src>(DstLimits::max()),
-                                 value >= static_cast<Src>(DstLimits::min()));
+                                 value <= static_cast<Src>((DstLimits::max)()),
+                                 value >= static_cast<Src>((DstLimits::min)()));
             }
         };
 
@@ -126,7 +126,7 @@ namespace core {
             static constexpr RangeCheckResult Check(Src value) {
                 typedef std::numeric_limits<Dst> DstLimits;
                 return BASE_NUMERIC_RANGE_CHECK_RESULT(
-                    value <= static_cast<Src>(DstLimits::max()), true);
+                    value <= static_cast<Src>((DstLimits::max)()), true);
             }
         };
 
@@ -138,7 +138,7 @@ namespace core {
                 return sizeof(Dst) > sizeof(Src)
                            ? TYPE_VALID
                            : BASE_NUMERIC_RANGE_CHECK_RESULT(
-                                 value <= static_cast<Src>(DstLimits::max()), true);
+                                 value <= static_cast<Src>((DstLimits::max)()), true);
             }
         };
 
@@ -158,7 +158,7 @@ namespace core {
                            ? BASE_NUMERIC_RANGE_CHECK_RESULT(true,
                                                              value >= static_cast<Src>(0))
                            : BASE_NUMERIC_RANGE_CHECK_RESULT(
-                                 value <= static_cast<Src>(DstLimits::max()),
+                                 value <= (static_cast<Src>(DstLimits::max))(),
                                  value >= static_cast<Src>(0));
             }
         };

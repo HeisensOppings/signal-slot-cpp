@@ -57,10 +57,10 @@ namespace core {
             return static_cast<Dst>(value);
 
         case internal::TYPE_UNDERFLOW:
-            return std::numeric_limits<Dst>::min();
+            return (std::numeric_limits<Dst>::min)();
 
         case internal::TYPE_OVERFLOW:
-            return std::numeric_limits<Dst>::max();
+            return (std::numeric_limits<Dst>::max)();
 
         // Should fail only on attempting to assign NaN to a saturated integer.
         case internal::TYPE_INVALID:
