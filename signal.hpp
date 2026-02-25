@@ -812,8 +812,8 @@ namespace sigslot {
 
             explicit slot_base(cleanable& c, uint32_t type, core::TaskQueue* queue, group_id gid)
             : slot_state(gid)
-            , m_cleaner(c)
-            , m_queue(queue) {
+            , m_queue(queue) 
+            , m_cleaner(c) {
                 m_singleshot = type & connection_type::singleshot_connection;
                 uint32_t t = type;
                 t &= ~connection_type::unique_connection;
