@@ -66,7 +66,8 @@ namespace core {
         virtual ~TaskQueueBase() = default;
     };
 
-    struct TaskQueueDeleter {
+    class TaskQueueDeleter {
+    public:
         void operator()(TaskQueueBase* taskQueue) const { taskQueue->Delete(); }
     };
 
