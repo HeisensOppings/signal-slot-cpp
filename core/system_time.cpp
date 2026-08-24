@@ -54,7 +54,7 @@ namespace core {
         // Use timebase to convert absolute time tick units into nanoseconds.
         const auto mul = [](uint64_t a, uint32_t b) -> int64_t {
             RTC_DCHECK_NE(b, 0);
-            RTC_DCHECK_LE(a, std::numeric_limits<int64_t>::max() / b)
+            RTC_DCHECK_LE(a, (std::numeric_limits<int64_t>::max)() / b)
                 << "The multiplication " << a << " * " << b << " overflows";
             return rtc::dchecked_cast<int64_t>(a * b);
         };
