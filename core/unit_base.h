@@ -189,10 +189,10 @@ namespace core {
             template <int64_t Factor, typename T = int64_t>
             constexpr typename std::enable_if<std::is_integral<T>::value, T>::type
             ToMultiple() const {
-                //RTC_DCHECK_GE(ToValue(), std::numeric_limits<T>::min() / Factor);
-                assert(ToValue() > std::numeric_limits<T>::min() / Factor || ToValue() == std::numeric_limits<T>::min() / Factor);
-                //RTC_DCHECK_LE(ToValue(), std::numeric_limits<T>::max() / Factor);
-                assert(ToValue() < std::numeric_limits<T>::max() / Factor || ToValue() == std::numeric_limits<T>::max() / Factor);
+                //RTC_DCHECK_GE(ToValue(), (std::numeric_limits<T>::min)() / Factor);
+                assert(ToValue() > (std::numeric_limits<T>::min)() / Factor || ToValue() == (std::numeric_limits<T>::min)() / Factor);
+                //RTC_DCHECK_LE(ToValue(), (std::numeric_limits<T>::max)() / Factor);
+                assert(ToValue() < (std::numeric_limits<T>::max)() / Factor || ToValue() == (std::numeric_limits<T>::max)() / Factor);
                 return core::dchecked_cast<T>(ToValue() * Factor);
             }
             template <int64_t Factor, typename T>
@@ -237,8 +237,8 @@ namespace core {
         class RelativeUnit : public UnitBase<Unit_T> {
         public:
             constexpr Unit_T Clamped(Unit_T min_value, Unit_T max_value) const {
-                return std::max(min_value,
-                                std::min(UnitBase<Unit_T>::AsSubClassRef(), max_value));
+                return (std::max)(min_value,
+                                (std::min)(UnitBase<Unit_T>::AsSubClassRef(), max_value));
             }
             constexpr void Clamp(Unit_T min_value, Unit_T max_value) {
                 *this = Clamped(min_value, max_value);

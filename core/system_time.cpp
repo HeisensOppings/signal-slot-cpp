@@ -54,7 +54,7 @@ namespace core {
         // Use timebase to convert absolute time tick units into nanoseconds.
         const auto mul = [](uint64_t a, uint32_t b) -> int64_t {
             RTC_DCHECK_NE(b, 0);
-            RTC_DCHECK_LE(a, std::numeric_limits<int64_t>::max() / b)
+            RTC_DCHECK_LE(a, (std::numeric_limits<int64_t>::max)() / b)
                 << "The multiplication " << a << " * " << b << " overflows";
             return rtc::dchecked_cast<int64_t>(a * b);
         };
@@ -71,8 +71,13 @@ namespace core {
 #elif defined(CORE_WIN)
         // TODO(webrtc:14601): Fix the volatile increment instead of suppressing the
         // warning.
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-volatile"
+#elif defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4197 4996)
+#endif
         static volatile LONG last_timegettime = 0;
         static volatile int64_t num_wrap_timegettime = 0;
         volatile LONG* last_timegettime_ptr = &last_timegettime;
@@ -91,7 +96,11 @@ namespace core {
         // TODO(deadbeef): Calculate with nanosecond precision. Otherwise, we're
         // just wasting a multiply and divide when doing Time() on Windows.
         ticks = ticks * kNumNanosecsPerMillisec;
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 #else
 #error Unsupported platform.
 #endif

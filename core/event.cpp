@@ -59,9 +59,16 @@ namespace core {
     bool Event::Wait(TimeDelta give_up_after, TimeDelta /*warn_after*/) {
         ScopedYieldPolicy::YieldExecution();
         const DWORD ms =
-            give_up_after.IsPlusInfinity()
-                ? INFINITE
-                : give_up_after.RoundUpTo(core::TimeDelta::Millis(1)).ms();
+          give_up_after.IsPlusInfinity()
+          ? INFINITE
+          // Result of ms is assumed to be positive in this context,
+          // however on some compilers or architectures DWORD could be
+          // a 32-bit number, with a lower upper limit than int64_t.
+          : [&give_up_after]() {
+              auto tdms = give_up_after.RoundUpTo(core::TimeDelta::Millis(1)).ms();
+              return (tdms > (std::numeric_limits<DWORD>::max)()) ?
+                  INFINITE : (DWORD)tdms;
+              }();
         return (WaitForSingleObject(event_handle_, ms) == WAIT_OBJECT_0);
     }
 

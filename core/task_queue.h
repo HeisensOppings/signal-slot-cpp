@@ -96,7 +96,7 @@ namespace core {
         // See documentation above for performance expectations.
         template <class Closure, typename std::enable_if<!std::is_convertible<Closure, std::unique_ptr<QueuedTask>>::value>::type* = nullptr>
         void PostDelayedTask(Closure&& closure, uint32_t milliseconds) {
-            postDelayedTask(ToQueuedTask(std::forward<Closure>(closure)),  milliseconds);
+            PostDelayedTask(ToQueuedTask(std::forward<Closure>(closure)), TimeDelta::Millis(milliseconds));
         }
 
 
